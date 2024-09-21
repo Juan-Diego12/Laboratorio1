@@ -7,5 +7,6 @@ co\edu\uniquindio\poo\MiembroClub.class
 co\edu\uniquindio\poo\ClubDeportivo.class
 co\edu\uniquindio\poo\NivelDificultad.class
 co\edu\uniquindio\poo\SesionEntrenamiento.class
+co\edu\uniquindio\poo\LoggerManager.class
 co\edu\uniquindio\poo\EstadoSesion.class
 co\edu\uniquindio\poo\Adulto.class
