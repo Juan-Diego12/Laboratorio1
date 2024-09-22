@@ -1,6 +1,7 @@
 package co.edu.uniquindio.poo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -28,12 +29,20 @@ public class MainApp extends Application {
         bundle = ResourceBundle.getBundle("locale.messages", currentLocale);
 
         mostrarPantallaInicial(primaryStage);
+        LoggerManager.logInfo("Aplicacion iniciada.");
     }
+
 
     private void cambiarIdioma(Locale nuevoLocale, Stage stage) {
         currentLocale = nuevoLocale;
         bundle = ResourceBundle.getBundle("locale.messages", currentLocale);
         mostrarPantallaInicial(stage); 
+        if (currentLocale.getLanguage().equals("en")) {
+            LoggerManager.logInfo("Idioma cambiado a Espanol");
+        } else {
+            LoggerManager.logInfo("Idioma cambiado a Ingles");
+        }
+        
     }
 
     private void mostrarPantallaInicial(Stage stage) {
@@ -68,22 +77,22 @@ public class MainApp extends Application {
         root.setPadding(new javafx.geometry.Insets(10));
 
         TextField nombreField = new TextField();
-        nombreField.setPromptText(bundle.getString("label.name"));
+        nombreField.setPromptText("Nombre");
 
         TextField emailField = new TextField();
-        emailField.setPromptText(bundle.getString("label.email"));
+        emailField.setPromptText("Correo Electrónico");
 
         TextField idField = new TextField();
-        idField.setPromptText(bundle.getString("label.id"));
+        idField.setPromptText("ID");
 
         ComboBox<String> tipoMiembroBox = new ComboBox<>();
-        tipoMiembroBox.getItems().addAll(bundle.getString("label.juvenil"), bundle.getString("label.adulto"));
-        tipoMiembroBox.setPromptText(bundle.getString("label.memberType"));
+        tipoMiembroBox.getItems().addAll("Juvenil", "Adulto");
+        tipoMiembroBox.setPromptText("Tipo de Miembro");
 
         ComboBox<String> deportesBox = new ComboBox<>(deportesObservableList);
-        deportesBox.setPromptText(bundle.getString("label.selectDeporte"));
+        deportesBox.setPromptText("Selecciona un Deporte");
 
-        Button registrarButton = new Button(bundle.getString("button.register"));
+        Button registrarButton = new Button("Registrar");
         Label registroLabel = new Label();
 
         registrarButton.setOnAction(e -> {
@@ -94,10 +103,13 @@ public class MainApp extends Application {
             String deporteSeleccionado = deportesBox.getValue();
 
             if (nombre.isEmpty() || email.isEmpty() || id.isEmpty() || tipo == null || deporteSeleccionado == null) {
-                registroLabel.setText(bundle.getString("message.fillAllFields"));
+                registroLabel.setText("Por favor, completa todos los campos.");
+                LoggerManager.logWarning("Intento de registro fallido: Campos vacios.");
+
+
             } else {
                 MiembroClub miembro;
-                if (tipo.equals(bundle.getString("label.juvenil"))) {
+                if (tipo.equals("Juvenil")) {
                     miembro = new Juvenil(nombre, email, id);
                 } else {
                     miembro = new Adulto(nombre, email, id);
@@ -111,18 +123,23 @@ public class MainApp extends Application {
                     sesion.setEstado(EstadoSesion.PROGRAMADA);
 
                     club.registrarMiembro(miembro);
-                    registroLabel.setText(bundle.getString("message.registerSuccess") + " " + deporte.getNombre());
+                    registroLabel.setText("Miembro registrado e inscrito en las sesiones de entrenamiento de " + deporte.getNombre());
+                    LoggerManager.logInfo("Registro exitoso del miembro: " + nombre + " en el deporte " + deporteSeleccionado);
+
                 } else {
-                    registroLabel.setText(bundle.getString("message.cannotRegister"));
+                    registroLabel.setText("No puedes inscribirte en este deporte.");
+                    LoggerManager.logError("Error al registrar al miembro: " + nombre + ". No se puede inscribir en el deporte " + deporteSeleccionado);
+
                 }
+    
             }
         });
 
-        Button backButton = new Button(bundle.getString("button.back"));
+        Button backButton = new Button("Atrás");
         backButton.setOnAction(e -> mostrarPantallaInicial(stage));
 
         root.getChildren().addAll(
-            new Label(bundle.getString("label.registerMember")),
+            new Label("Registrar Miembro:"),
             nombreField, emailField, idField, tipoMiembroBox, deportesBox, registrarButton, registroLabel,
             backButton
         );
@@ -162,55 +179,201 @@ public class MainApp extends Application {
     }
 
     private void crearDeporte() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle(bundle.getString("button.createSport"));
-        dialog.setHeaderText(bundle.getString("message.enterSportName"));
-        dialog.setContentText(bundle.getString("label.name") + ":");
+        Stage stage = new Stage();
+        VBox root = new VBox(10);
+        root.setPadding(new javafx.geometry.Insets(10));
 
-        dialog.showAndWait().ifPresent(deporteNombre -> {
-            if (!deporteNombre.isEmpty()) {
-                Deporte nuevoDeporte = new Deporte(deporteNombre, "Descripción", NivelDificultad.BAJO);
-                club.registrarDeporte(nuevoDeporte);
-                deportesObservableList.add(deporteNombre);
-                mostrarAlerta(bundle.getString("button.createSport"), bundle.getString("message.sportCreated"));
+        TextField nombreField = new TextField();
+        nombreField.setPromptText("Nombre del Deporte");
+
+        TextField descripcionField = new TextField();
+        descripcionField.setPromptText("Descripción del Deporte");
+
+        ComboBox<NivelDificultad> dificultadBox = new ComboBox<>();
+        dificultadBox.getItems().addAll(NivelDificultad.BAJO, NivelDificultad.MEDIO, NivelDificultad.ALTO);
+        dificultadBox.setPromptText("Nivel de Dificultad");
+
+        TextField entrenadorField = new TextField();
+        entrenadorField.setPromptText("Nombre del Entrenador");
+
+        Button crearButton = new Button("Crear Deporte");
+
+        crearButton.setOnAction(e -> {
+            String nombreDeporte = nombreField.getText();
+            String descripcion = descripcionField.getText();
+            NivelDificultad dificultad = dificultadBox.getValue();
+            String nombreEntrenador = entrenadorField.getText();
+
+            if (nombreDeporte.isEmpty() || descripcion.isEmpty() || dificultad == null || nombreEntrenador.isEmpty()) {
+                mostrarAlerta("Error", "Por favor, completa todos los campos.");
             } else {
-                mostrarAlerta(bundle.getString("button.createSport"), bundle.getString("message.enterSportName"));
+                Deporte nuevoDeporte = new Deporte(nombreDeporte, descripcion, dificultad);
+                Entrenador entrenador = new Entrenador(nombreEntrenador, nuevoDeporte);
+                nuevoDeporte.agregarEntrenador(entrenador);
+                club.registrarDeporte(nuevoDeporte);
+
+                deportesObservableList.add(nuevoDeporte.getNombre());
+
+                mostrarAlerta("Éxito", "Deporte creado exitosamente.");
+                stage.close();
             }
         });
+
+        root.getChildren().addAll(
+            new Label("Crear Nuevo Deporte:"),
+            nombreField, descripcionField, dificultadBox, entrenadorField, crearButton
+        );
+
+        Scene scene = new Scene(root, 300, 200);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private void crearSesion(String deporteNombre) {
-        Deporte deporte = club.obtenerDeportePorNombre(deporteNombre);
-        Entrenador entrenador = deporte.getEntrenadores().get(0);
 
-        if (deporte != null) {
-            SesionEntrenamiento sesion = new SesionEntrenamiento(LocalDateTime.now(), 60, EstadoSesion.PROGRAMADA, deporte, entrenador);
-            deporte.getEntrenadores().get(0).agregarSesion(sesion);
-            mostrarAlerta(bundle.getString("button.createSession"), bundle.getString("message.sessionCreated"));
-        } else {
-            mostrarAlerta(bundle.getString("button.createSession"), bundle.getString("message.selectSport"));
+    private void crearSesion(String deporteNombre) {
+        if (deporteNombre == null) {
+            mostrarAlerta("Error", "Selecciona un deporte antes de crear una sesión.");
+            return;
         }
+
+        Deporte deporte = club.obtenerDeportePorNombre(deporteNombre);
+        if (deporte.getEntrenadores().isEmpty()) {
+            mostrarAlerta("Error", "No hay entrenadores disponibles para este deporte.");
+            return;
+        }
+
+        Stage stage = new Stage();
+        VBox root = new VBox(10);
+        root.setPadding(new javafx.geometry.Insets(10));
+
+        DatePicker datePicker = new DatePicker();
+        TextField duracionField = new TextField();
+        duracionField.setPromptText("Duración en minutos");
+
+        Button crearButton = new Button("Crear Sesión");
+
+        crearButton.setOnAction(e -> {
+            LocalDateTime fecha = datePicker.getValue().atStartOfDay();
+            int duracion = Integer.parseInt(duracionField.getText());
+
+            Entrenador entrenador = deporte.getEntrenadores().get(0);
+            SesionEntrenamiento nuevaSesion = new SesionEntrenamiento(fecha, duracion, EstadoSesion.PROGRAMADA, deporte, entrenador);
+            entrenador.agregarSesion(nuevaSesion);
+
+            mostrarAlerta("Éxito", "Sesión creada exitosamente.");
+            stage.close();
+        });
+
+        root.getChildren().addAll(
+            new Label("Crear Nueva Sesión:"),
+            new Label("Fecha de la Sesión:"), datePicker,
+            duracionField,
+            crearButton
+        );
+
+        Scene scene = new Scene(root, 300, 200);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void editarSesion(String deporteNombre) {
-        Deporte deporte = club.obtenerDeportePorNombre(deporteNombre);
-        if (deporte != null) {
-            SesionEntrenamiento sesion = deporte.getEntrenadores().get(0).getSesiones().get(0);
-            sesion.setDuracion(90); 
-            mostrarAlerta(bundle.getString("button.editSession"), bundle.getString("message.sessionEdited"));
-        } else {
-            mostrarAlerta(bundle.getString("button.editSession"), bundle.getString("message.selectSport"));
+        if (deporteNombre == null) {
+            mostrarAlerta("Error", "Selecciona un deporte antes de editar una sesión.");
+            return;
         }
-    }
 
-    private void eliminarSesion(String deporteNombre) {
         Deporte deporte = club.obtenerDeportePorNombre(deporteNombre);
-        if (deporte != null) {
-            deporte.getEntrenadores().get(0).getSesiones().remove(0);
-            mostrarAlerta(bundle.getString("button.deleteSession"), bundle.getString("message.sessionDeleted"));
-        } else {
-            mostrarAlerta(bundle.getString("button.deleteSession"), bundle.getString("message.selectSport"));
+        if (deporte.getEntrenadores().isEmpty()) {
+            mostrarAlerta("Error", "No hay entrenadores disponibles para este deporte.");
+            return;
         }
+
+        Stage stage = new Stage();
+        VBox root = new VBox(10);
+        root.setPadding(new javafx.geometry.Insets(10));
+
+        List<SesionEntrenamiento> sesiones = deporte.getEntrenadores().get(0).getSesiones();
+
+        ComboBox<SesionEntrenamiento> sesionBox = new ComboBox<>();
+        sesionBox.getItems().addAll(sesiones);
+        sesionBox.setPromptText("Selecciona una Sesión");
+
+        DatePicker datePicker = new DatePicker();
+        TextField duracionField = new TextField();
+        duracionField.setPromptText("Nueva Duración en minutos");
+
+        Button editarButton = new Button("Editar Sesión");
+
+        editarButton.setOnAction(e -> {
+            SesionEntrenamiento sesionSeleccionada = sesionBox.getValue();
+            if (sesionSeleccionada != null) {
+                sesionSeleccionada.setFecha(datePicker.getValue().atStartOfDay());
+                sesionSeleccionada.setDuracion(Integer.parseInt(duracionField.getText()));
+
+                mostrarAlerta("Éxito", "Sesión editada exitosamente.");
+                stage.close();
+            } else {
+                mostrarAlerta("Error", "Selecciona una sesión para editar.");
+            }
+        });
+
+        root.getChildren().addAll(
+            new Label("Editar Sesión:"),
+            sesionBox,
+            new Label("Nueva Fecha de la Sesión:"), datePicker,
+            duracionField,
+            editarButton
+        );
+
+        Scene scene = new Scene(root, 300, 250);
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void eliminarSesion(String deporteNombre) {
+        if (deporteNombre == null) {
+            mostrarAlerta("Error", "Selecciona un deporte antes de eliminar una sesión.");
+            return;
+        }
+
+        Deporte deporte = club.obtenerDeportePorNombre(deporteNombre);
+        if (deporte.getEntrenadores().isEmpty()) {
+            mostrarAlerta("Error", "No hay entrenadores disponibles para este deporte.");
+            return;
+        }
+
+        Stage stage = new Stage();
+        VBox root = new VBox(10);
+        root.setPadding(new javafx.geometry.Insets(10));
+
+        List<SesionEntrenamiento> sesiones = deporte.getEntrenadores().get(0).getSesiones();
+
+        ComboBox<SesionEntrenamiento> sesionBox = new ComboBox<>();
+        sesionBox.getItems().addAll(sesiones);
+        sesionBox.setPromptText("Selecciona una Sesión");
+
+        Button eliminarButton = new Button("Eliminar Sesión");
+
+        eliminarButton.setOnAction(e -> {
+            SesionEntrenamiento sesionSeleccionada = sesionBox.getValue();
+            if (sesionSeleccionada != null) {
+                deporte.getEntrenadores().get(0).getSesiones().remove(sesionSeleccionada);
+
+                mostrarAlerta("Éxito", "Sesión eliminada exitosamente.");
+                stage.close();
+            } else {
+                mostrarAlerta("Error", "Selecciona una sesión para eliminar.");
+            }
+        });
+
+        root.getChildren().addAll(
+            new Label("Eliminar Sesión:"),
+            sesionBox,
+            eliminarButton
+        );
+
+        Scene scene = new Scene(root, 300, 200);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
