@@ -9,7 +9,7 @@ public class Utilidades {
     }
 
     //Serializar un objeto en archivo binario
-    public static void serializarObjeto(String nombre, Object objeto) throws IOException{
+    public static void serializarObjetoBinario(String nombre, Object objeto) throws IOException{
         ObjetoOutputStream salida;
 
         salida = new  ObjectOutputStream(new FileOutputStream(nombre));
@@ -18,7 +18,7 @@ public class Utilidades {
     }
 
     //Deserializar un objeto en un archivo binario
-    public static Object deserializarObjeto( String nombre) throws Exception{
+    public static Object deserializarObjetoBinario( String nombre) throws IOException{
         Object objeto;
         ObjetoInputStream entrada;
 

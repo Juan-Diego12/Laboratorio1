@@ -17,7 +17,7 @@ public class ClubDeportivo {
         miembros.add(miembro);
     }
 
-    public void registrarDeporte(Deporte deporte) {
+    public void registrarDeporte(Deporte deporte){
         deportes.add(deporte);
     }
 

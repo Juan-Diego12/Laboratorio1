@@ -20,6 +20,9 @@ public class MainApp extends Application {
     private ResourceBundle bundle;
     private Locale currentLocale;
 
+   
+   
+
     @Override
     public void start(Stage primaryStage) {
         club = new ClubDeportivo();
