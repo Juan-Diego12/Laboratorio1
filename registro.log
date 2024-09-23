@@ -90,3 +90,11 @@ sep. 21, 2024 11:32:32 A. M. co.edu.uniquindio.poo.LoggerManager logInfo
 INFORMACIÓN: Registro exitoso del miembro: yu en el deporte uj
 sep. 21, 2024 11:32:38 A. M. co.edu.uniquindio.poo.LoggerManager logError
 GRAVE: Error al registrar al miembro: yu. No se puede inscribir en el deporte uj
+Sep 23, 2024 4:54:24 PM co.edu.uniquindio.poo.LoggerManager logInfo
+INFO: Aplicacion iniciada.
+Sep 23, 2024 5:05:59 PM co.edu.uniquindio.poo.LoggerManager logInfo
+INFO: Aplicacion iniciada.
+Sep 23, 2024 5:06:10 PM co.edu.uniquindio.poo.LoggerManager logInfo
+INFO: Idioma cambiado a Espanol
+Sep 23, 2024 5:06:11 PM co.edu.uniquindio.poo.LoggerManager logInfo
+INFO: Idioma cambiado a Ingles
