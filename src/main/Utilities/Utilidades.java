@@ -1,5 +1,13 @@
 public class Utilidades {
 
+    //Singleton
+    public static Utilidades getInstance() {
+        if (instance == null) {
+            instance = new Utilidades();
+        }
+        return instance;
+    }
+
     //Serializar un objeto en archivo binario
     public static void serializarObjeto(String nombre, Object objeto) throws IOException{
         ObjetoOutputStream salida;
