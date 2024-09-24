@@ -1,5 +1,15 @@
-public class Utilidades {
+package co.edu.uniquindio.poo;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class Utilidades {
+    private static Utilidades instance;
     //Singleton
     public static Utilidades getInstance() {
         if (instance == null) {
@@ -10,7 +20,7 @@ public class Utilidades {
 
     //Serializar un objeto en archivo binario
     public static void serializarObjetoBinario(String nombre, Object objeto) throws IOException{
-        ObjetoOutputStream salida;
+        ObjectOutputStream salida;
 
         salida = new  ObjectOutputStream(new FileOutputStream(nombre));
         salida.writeObject(objeto);
@@ -20,9 +30,9 @@ public class Utilidades {
     //Deserializar un objeto en un archivo binario
     public static Object deserializarObjetoBinario( String nombre) throws IOException{
         Object objeto;
-        ObjetoInputStream entrada;
+        ObjectInputStream entrada;
 
-        entrada = new ObjetoInputStream( new FileInputStream(nombre));
+        entrada = new ObjectInputStream( new FileInputStream(nombre));
         objeto = entrada.readObject();
         entrada.close();
 
@@ -44,7 +54,7 @@ public class Utilidades {
         XMLDecoder decodificador;
         Object objeto;
 
-        decodificador = new XMLDecorder( new FileInputStream(nombre));
+        decodificador = new XMLDecoder( new FileInputStream(nombre));
         objeto = decodificador.readObject();
         decodificador.close();
 
