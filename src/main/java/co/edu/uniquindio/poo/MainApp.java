@@ -53,7 +53,7 @@ public class MainApp extends Application {
         
     }
 
-    private void gestionArchivosMiembros(){
+    private void gestionArchivos(){
         String formatoMiembros = "El miembro %s con email %s y número de identificación %s se encuentra inscrito al club";
         String formatoDeportes = "El deporte %s con su descripcion %S se encuentra disponible en el club";
         // Lista de entidades ejemplo
