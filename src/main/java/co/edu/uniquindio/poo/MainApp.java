@@ -102,7 +102,12 @@ public class MainApp extends Application {
                 cambiarIdioma(new Locale("es", "ES"), stage); 
             }
         });
-
+        Button gestionArchivosButton = new Button("Gestionar Archivos");
+        gestionArchivosButton.setOnAction(e -> gestionArchivos());
+    
+        root.getChildren().addAll(
+            gestionArchivosButton
+        );
         root.getChildren().addAll(adminButton, registerButton, changeLanguageButton);
 
         Scene scene = new Scene(root, 400, 300);
