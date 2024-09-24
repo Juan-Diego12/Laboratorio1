@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 @Data
 @RequiredArgsConstructor
-public class Entrenador {
+public class Entrenador implements Serializable {
     @NonNull
     private String nombre;
     @NonNull
@@ -17,7 +18,7 @@ public class Entrenador {
 
     private List<SesionEntrenamiento> sesiones = new ArrayList<>();
 
-    public void agregarSesion(SesionEntrenamiento sesion) {
+    public void agregarSesion(SesionEntrenamiento sesion ){
         sesiones.add(sesion);
     }
 
@@ -25,5 +26,15 @@ public class Entrenador {
     public String toString() {
         return this.nombre; 
     }
+
+    public Entrenador(){
+        
+    }
+
+    public Entrenador(String nombre){
+        this.nombre = nombre;
+
+    }
+
     
 }
