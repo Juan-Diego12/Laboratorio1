@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 @Data
 @RequiredArgsConstructor
-public class Deporte {
+public class Deporte implements Serializable{
     @NonNull
     private String nombre;
     @NonNull
@@ -19,6 +20,8 @@ public class Deporte {
 
     private List<Entrenador> entrenadores = new ArrayList<>();
 
+    private static final long serialVersionUID = 1L;
+
     public void agregarEntrenador(Entrenador entrenador) {
         entrenadores.add(entrenador);
     }
@@ -26,6 +29,10 @@ public class Deporte {
     @Override
     public String toString() {
     return this.nombre; 
+
+    public Deporte(String nombre){
+        this.nombre = nombre;
+    }
 }
 
 }
