@@ -1,24 +1,27 @@
 package co.edu.uniquindio.poo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class PruebaserYDeserializacion {
 
-    deportes = new ArrayList<Deporte>();
-    entrenadores = new ArrayList<Entrenador>();
-
-    deportes.add( new Deporte("futbol"));
-    deportes.add( new Deporte("basket"));
-    deportes.add( new Deporte("natación"));
-
-    entrenadores.add( new Entrenador("Samuel"));
-    entrenadores.add( new Entrenador("Santiago"));
-    entrenadores.add( new Entrenador("Daniel"));
     
 
     public static void main(String[] args) {
         // Suponemos que deportesObservableList está inicializado
+        List<Deporte> deportes = new ArrayList<Deporte>();
+        List<Entrenador> entrenadores = new ArrayList<Entrenador>();
+    
+        deportes.add( new Deporte("futbol"));
+        deportes.add( new Deporte("basket"));
+        deportes.add( new Deporte("natación"));
+    
+        entrenadores.add( new Entrenador("Samuel"));
+        entrenadores.add( new Entrenador("Santiago"));
+        entrenadores.add( new Entrenador("Daniel"));
         
 
         // Serialización y deserialización binaria
