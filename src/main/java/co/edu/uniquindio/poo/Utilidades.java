@@ -2,11 +2,15 @@ package co.edu.uniquindio.poo;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 public class Utilidades {
     private static Utilidades instance;
@@ -59,5 +63,44 @@ public class Utilidades {
         decodificador.close();
 
         return objeto;
+    }
+    //Código para la gestión de archivos, se escriben los miembros en un txt
+    public static <T> void escribirMiembrosTxt(File archivo, List<T> lista, String formato) throws IOException{
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
+            for (int i = 0; i < lista.size(); i++) {
+                writer.write(lista.get(i).toString());
+                writer.newLine();
+                if ((i + 1) % 10 == 0 || i == lista.size() - 1) {
+                    writer.newLine();
+                }
+                
+                // Si se ha escrito 10 elementos, hacemos flush para escribir en el archivo txt
+                if ((i + 1) % 10 == 0) {
+                    writer.flush();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //Código para la gestión de archivos, se escriben los deportes en un txt
+    public static <T> void escribirDeportesTxt(File archivo, List<T> lista, String formato) throws IOException{
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
+            for (int i = 0; i < lista.size(); i++) {
+                writer.write(lista.get(i).toString());
+                writer.newLine();
+                if ((i + 1) % 10 == 0 || i == lista.size() - 1) {
+                    writer.newLine();
+                }
+                
+                // Si se ha escrito 10 elementos, hacemos flush para escribir en el archivo txt
+                if ((i + 1) % 10 == 0) {
+                    writer.flush();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

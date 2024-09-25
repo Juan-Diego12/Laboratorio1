@@ -35,4 +35,8 @@ public class ClubDeportivo {
         }
         return miembros.get(miembros.size() - 1);
     }
+
+    public List<MiembroClub> getMiembros() {
+        return miembros;
+    }
 }

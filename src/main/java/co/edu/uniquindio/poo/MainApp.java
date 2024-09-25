@@ -1,9 +1,14 @@
 package co.edu.uniquindio.poo;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,6 +52,40 @@ public class MainApp extends Application {
         }
         
     }
+    //Funcionalidad para la gestión de archivos
+    private void gestionArchivos(){
+        String formatoMiembros = "El miembro %s con email %s y número de identificación %s se encuentra inscrito al club";
+        String formatoDeportes = "El deporte %s con su descripcion %S se encuentra disponible en el club";
+        // Lista de entidades ejemplo
+        List<MiembroClub> listaMiembros = club.getMiembros();
+        List<Deporte> listaDeportes = club.getDeportes();
+
+        // Directorio
+        File directorio = new File("Reportes_Java");
+        //Creación de los archivos txt
+        File archivoMiembros = new File("Reportes_Java/Miembros.txt");
+        File archivoDeportes = new File("Reportes_Java/Deportes.txt");
+        //Comprobación de la existencia del directorio
+        if (!directorio.exists()) {
+            if (directorio.mkdir()) {
+                System.out.println("Directorio creado: " + directorio.getPath());
+            } else {
+                System.out.println("No se pudo crear el directorio.");
+                return;
+            }
+        }
+        // Almacenar datos en archivo
+        try {
+            Utilidades.getInstance();
+            //Método para gestionar el txt de miembros
+            Utilidades.escribirMiembrosTxt(archivoMiembros, listaMiembros, formatoMiembros);
+            //Método para gestionar el txt de deportes
+            Utilidades.escribirDeportesTxt(archivoDeportes, listaDeportes, formatoDeportes);
+            JOptionPane.showMessageDialog(null, "El archivo se creó correctamente");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al manipular el archivo");
+        }
+    }
 
     private void mostrarPantallaInicial(Stage stage) {
         VBox root = new VBox(10);
@@ -66,7 +105,12 @@ public class MainApp extends Application {
                 cambiarIdioma(new Locale("es", "ES"), stage); 
             }
         });
-
+        Button gestionArchivosButton = new Button("Gestionar Archivos");
+        gestionArchivosButton.setOnAction(e -> gestionArchivos());
+    
+        root.getChildren().addAll(
+            gestionArchivosButton
+        );
         root.getChildren().addAll(adminButton, registerButton, changeLanguageButton);
 
         Scene scene = new Scene(root, 400, 300);
