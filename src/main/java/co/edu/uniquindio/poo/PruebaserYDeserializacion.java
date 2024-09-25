@@ -32,11 +32,11 @@ public class PruebaserYDeserializacion {
         // Serialización y deserialización binaria para entrenadores
         try {
             // Serialización de la lista de entrenadores en formato binario
-            Utilidades.getInstance().serializarObjeto("EntrenadorLista.dat", entrenadores);
+            Utilidades.getInstance().serializarObjeto("Entrenador1.dat", entrenadores);
             System.out.println("Lista de entrenadores serializada en binario: " + entrenadores);
 
             // Deserialización de la lista de entrenadores desde formato binario
-            nuevaListaEntrenadores = (ArrayList<Entrenador>) Utilidades.getInstance().deserializarObjeto("EntrenadorLista.dat");
+            nuevaListaEntrenadores = (ArrayList<Entrenador>) Utilidades.getInstance().deserializarObjeto("Entrenador1.dat");
             if (nuevaListaEntrenadores != null && !nuevaListaEntrenadores.isEmpty()) {
                 System.out.println("Lista de entrenadores deserializada desde binario: " + nuevaListaEntrenadores);
             } else {
@@ -49,11 +49,11 @@ public class PruebaserYDeserializacion {
         // Serialización y deserialización XML para deportes
         try {
             // Serialización de la lista de deportes en XML
-            Utilidades.getInstance().serializarObjetoXML("DeporteLista.xml", deportes);
+            Utilidades.getInstance().serializarObjetoXML("Deporte1.xml", deportes);
             System.out.println("Lista de deportes serializada en XML: " + deportes);
 
             // Deserialización de la lista de deportes desde XML
-            nuevaListaDeportes = (ArrayList<Deporte>) Utilidades.getInstance().deserializarObjetoXML("DeporteLista.xml");
+            nuevaListaDeportes = (ArrayList<Deporte>) Utilidades.getInstance().deserializarObjetoXML("Deporte1.xml");
             if (nuevaListaDeportes != null && !nuevaListaDeportes.isEmpty()) {
                 System.out.println("Lista de deportes deserializada desde XML: " + nuevaListaDeportes);
             } else {

@@ -33,6 +33,11 @@ public class Deporte implements Serializable{
     public Deporte(String nombre){
         this.nombre = nombre;
     }
+
+    public Deporte(){
+        
+    }
+
 }
 
 }

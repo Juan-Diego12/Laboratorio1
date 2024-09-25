@@ -17,6 +17,7 @@ public class Entrenador implements Serializable {
     private Deporte especialidad;
 
     private List<SesionEntrenamiento> sesiones = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
 
     public void agregarSesion(SesionEntrenamiento sesion ){
         sesiones.add(sesion);
@@ -25,10 +26,6 @@ public class Entrenador implements Serializable {
     @Override
     public String toString() {
         return this.nombre; 
-    }
-
-    public Entrenador(){
-        
     }
 
     public Entrenador(String nombre){
