@@ -22,6 +22,9 @@ public class Utilidades {
         return instance;
     }
 
+    // Logger integration
+    private static final LoggerManager logger = new LoggerManager();
+
     //Serializar un objeto en archivo binario
     public static void serializarObjetoBinario(String nombre, Object objeto) throws IOException{
         ObjectOutputStream salida;
