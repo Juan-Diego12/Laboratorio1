@@ -1,35 +1,15 @@
 package co.edu.uniquindio.poo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class PruebaserYDeserializacion {
 
-<<<<<<< HEAD
     public static void main(String[] args) {
         // Inicializamos las listas de deportes y entrenadores
         ArrayList<Deporte> deportes = new ArrayList<>();
         ArrayList<Entrenador> entrenadores = new ArrayList<>();
-=======
-    
-
-    public static void main(String[] args) {
-        // Suponemos que deportesObservableList está inicializado
-        List<Deporte> deportes = new ArrayList<Deporte>();
-        List<Entrenador> entrenadores = new ArrayList<Entrenador>();
-    
-        deportes.add( new Deporte("futbol"));
-        deportes.add( new Deporte("basket"));
-        deportes.add( new Deporte("natación"));
-    
-        entrenadores.add( new Entrenador("Samuel"));
-        entrenadores.add( new Entrenador("Santiago"));
-        entrenadores.add( new Entrenador("Daniel"));
->>>>>>> 0d81bbd35e2af78de453d94bcabcd0e85eb31054
         
         Deporte futbol = new Deporte("Fútbol", "Un deporte de equipo con una pelota", NivelDificultad.MEDIO);
 
