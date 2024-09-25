@@ -35,7 +35,7 @@ public class Utilidades {
     }
 
     //Deserializar un objeto en un archivo binario
-    public static Object deserializarObjetoBinario( String nombre) throws IOException{
+    public static Object deserializarObjetoBinario( String nombre) throws Exception{
         Object objeto;
         ObjectInputStream entrada;
 
