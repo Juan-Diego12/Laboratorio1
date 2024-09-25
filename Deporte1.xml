@@ -1,3 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="17.0.8" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="co.edu.uniquindio.poo.Deporte">
+    <void property="descripcion">
+     <string>abc</string>
+    </void>
+    <void property="nivelDificultad">
+     <object class="java.lang.Enum" id="NivelDificultad0" method="valueOf">
+      <class>co.edu.uniquindio.poo.NivelDificultad</class>
+      <string>MEDIO</string>
+     </object>
+    </void>
+    <void property="nombre">
+     <string>Fútbol</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="co.edu.uniquindio.poo.Deporte">
+    <void property="descripcion">
+     <string>abc</string>
+    </void>
+    <void property="nivelDificultad">
+     <object idref="NivelDificultad0"/>
+    </void>
+    <void property="nombre">
+     <string>Natación</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="co.edu.uniquindio.poo.Deporte">
+    <void property="descripcion">
+     <string>abc</string>
+    </void>
+    <void property="nivelDificultad">
+     <object idref="NivelDificultad0"/>
+    </void>
+    <void property="nombre">
+     <string>Baloncesto</string>
+    </void>
+   </object>
+  </void>
+ </object>
 </java>

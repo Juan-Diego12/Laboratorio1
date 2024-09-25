@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Data
 @RequiredArgsConstructor
-public class Deporte implements Serializable{
+public class Deporte implements Serializable {
     @NonNull
     private String nombre;
     @NonNull
@@ -28,16 +28,13 @@ public class Deporte implements Serializable{
 
     @Override
     public String toString() {
-    return this.nombre; 
+        return this.nombre;
+    }
 
-    public Deporte(String nombre){
+    public Deporte(String nombre) {
         this.nombre = nombre;
     }
 
-    public Deporte(){
-        
+    public Deporte() {
     }
-
-}
-
 }

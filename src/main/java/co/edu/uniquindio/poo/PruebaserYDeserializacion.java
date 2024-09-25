@@ -32,11 +32,11 @@ public class PruebaserYDeserializacion {
         // Serialización y deserialización binaria para entrenadores
         try {
             // Serialización de la lista de entrenadores en formato binario
-            Utilidades.getInstance().serializarObjeto("Entrenador1.dat", entrenadores);
+            Utilidades.getInstance().serializarObjetoBinario("Entrenador1.dat", entrenadores);
             System.out.println("Lista de entrenadores serializada en binario: " + entrenadores);
 
             // Deserialización de la lista de entrenadores desde formato binario
-            nuevaListaEntrenadores = (ArrayList<Entrenador>) Utilidades.getInstance().deserializarObjeto("Entrenador1.dat");
+            nuevaListaEntrenadores = (ArrayList<Entrenador>) Utilidades.getInstance().deserializarObjetoBinario("Entrenador1.dat");
             if (nuevaListaEntrenadores != null && !nuevaListaEntrenadores.isEmpty()) {
                 System.out.println("Lista de entrenadores deserializada desde binario: " + nuevaListaEntrenadores);
             } else {

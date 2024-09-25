@@ -98,3 +98,19 @@ Sep 23, 2024 5:06:10 PM co.edu.uniquindio.poo.LoggerManager logInfo
 INFO: Idioma cambiado a Espanol
 Sep 23, 2024 5:06:11 PM co.edu.uniquindio.poo.LoggerManager logInfo
 INFO: Idioma cambiado a Ingles
+sep. 25, 2024 8:59:14 A. M. co.edu.uniquindio.poo.LoggerManager logInfo
+INFORMACIÓN: Aplicacion iniciada.
+sep. 25, 2024 8:59:21 A. M. co.edu.uniquindio.poo.LoggerManager logInfo
+INFORMACIÓN: Idioma cambiado a Espanol
+sep. 25, 2024 8:59:25 A. M. co.edu.uniquindio.poo.LoggerManager logInfo
+INFORMACIÓN: Idioma cambiado a Ingles
+sep. 25, 2024 9:00:30 A. M. co.edu.uniquindio.poo.LoggerManager logWarning
+ADVERTENCIA: Intento de registro fallido: Campos vacios.
+sep. 25, 2024 9:00:36 A. M. co.edu.uniquindio.poo.LoggerManager logWarning
+ADVERTENCIA: Intento de registro fallido: Campos vacios.
+sep. 25, 2024 9:00:42 A. M. co.edu.uniquindio.poo.LoggerManager logWarning
+ADVERTENCIA: Intento de registro fallido: Campos vacios.
+sep. 25, 2024 9:00:49 A. M. co.edu.uniquindio.poo.LoggerManager logError
+GRAVE: Error al registrar al miembro: lkhytd. No se puede inscribir en el deporte kk
+sep. 25, 2024 9:00:57 A. M. co.edu.uniquindio.poo.LoggerManager logInfo
+INFORMACIÓN: Registro exitoso del miembro: lkhytd en el deporte kk

@@ -1,0 +1,2 @@
+MiembroClub(nombre=lkhytd, email=lig, numeroIdentificacion=249461)
+
