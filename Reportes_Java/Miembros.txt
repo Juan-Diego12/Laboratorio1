@@ -1,2 +1,4 @@
 MiembroClub(nombre=lkhytd, email=lig, numeroIdentificacion=249461)
 
+MiembroClub(nombre=Samuel, email=S@gmail.com, numeroIdentificacion=78451698)
+
