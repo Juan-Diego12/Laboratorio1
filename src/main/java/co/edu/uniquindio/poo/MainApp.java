@@ -1,7 +1,14 @@
 package co.edu.uniquindio.poo;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,28 +22,99 @@ public class MainApp extends Application {
     private ClubDeportivo club;
     private ObservableList<String> deportesObservableList;
 
+    private ResourceBundle bundle;
+    private Locale currentLocale;
+
+   
+   
+
     @Override
     public void start(Stage primaryStage) {
         club = new ClubDeportivo();
         deportesObservableList = FXCollections.observableArrayList();
 
+        currentLocale = new Locale("es", "ES");
+        bundle = ResourceBundle.getBundle("locale.messages", currentLocale);
+
         mostrarPantallaInicial(primaryStage);
+        LoggerManager.logInfo("Aplicacion iniciada.");
+    }
+
+
+    private void cambiarIdioma(Locale nuevoLocale, Stage stage) {
+        currentLocale = nuevoLocale;
+        bundle = ResourceBundle.getBundle("locale.messages", currentLocale);
+        mostrarPantallaInicial(stage); 
+        if (currentLocale.getLanguage().equals("en")) {
+            LoggerManager.logInfo("Idioma cambiado a Espanol");
+        } else {
+            LoggerManager.logInfo("Idioma cambiado a Ingles");
+        }
+        
+    }
+    //Funcionalidad para la gestión de archivos
+    private void gestionArchivos(){
+        String formatoMiembros = "El miembro %s con email %s y número de identificación %s se encuentra inscrito al club";
+        String formatoDeportes = "El deporte %s con su descripcion %S se encuentra disponible en el club";
+        // Lista de entidades ejemplo
+        List<MiembroClub> listaMiembros = club.getMiembros();
+        List<Deporte> listaDeportes = club.getDeportes();
+
+        // Directorio
+        File directorio = new File("Reportes_Java");
+        //Creación de los archivos txt
+        File archivoMiembros = new File("Reportes_Java/Miembros.txt");
+        File archivoDeportes = new File("Reportes_Java/Deportes.txt");
+        //Comprobación de la existencia del directorio
+        if (!directorio.exists()) {
+            if (directorio.mkdir()) {
+                System.out.println("Directorio creado: " + directorio.getPath());
+            } else {
+                System.out.println("No se pudo crear el directorio.");
+                return;
+            }
+        }
+        // Almacenar datos en archivo
+        try {
+            Utilidades.getInstance();
+            //Método para gestionar el txt de miembros
+            Utilidades.escribirMiembrosTxt(archivoMiembros, listaMiembros, formatoMiembros);
+            //Método para gestionar el txt de deportes
+            Utilidades.escribirDeportesTxt(archivoDeportes, listaDeportes, formatoDeportes);
+            JOptionPane.showMessageDialog(null, "El archivo se creó correctamente");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al manipular el archivo");
+        }
     }
 
     private void mostrarPantallaInicial(Stage stage) {
         VBox root = new VBox(10);
         root.setPadding(new javafx.geometry.Insets(10));
 
-        Button adminButton = new Button("Administrador");
-        Button registerButton = new Button("Registrarse");
+        Button adminButton = new Button(bundle.getString("button.admin"));
+        Button registerButton = new Button(bundle.getString("button.register"));
 
         adminButton.setOnAction(e -> mostrarPantallaAdministrador(stage));
         registerButton.setOnAction(e -> mostrarPantallaRegistro(stage));
 
-        root.getChildren().addAll(adminButton, registerButton);
+        Button changeLanguageButton = new Button(bundle.getString("button.changeLanguage"));
+        changeLanguageButton.setOnAction(e -> {
+            if (currentLocale.getLanguage().equals("es")) {
+                cambiarIdioma(new Locale("en", "US"), stage);  
+            } else {
+                cambiarIdioma(new Locale("es", "ES"), stage); 
+            }
+        });
+        Button gestionArchivosButton = new Button("Gestionar Archivos");
+        gestionArchivosButton.setOnAction(e -> gestionArchivos());
+    
+        root.getChildren().addAll(
+            gestionArchivosButton
+        );
+        root.getChildren().addAll(adminButton, registerButton, changeLanguageButton);
 
         Scene scene = new Scene(root, 400, 300);
-        stage.setTitle("Sistema de Gestión Deportiva");
+        stage.setTitle(bundle.getString("app.title"));
         stage.setScene(scene);
         stage.show();
     }
@@ -73,6 +151,9 @@ public class MainApp extends Application {
 
             if (nombre.isEmpty() || email.isEmpty() || id.isEmpty() || tipo == null || deporteSeleccionado == null) {
                 registroLabel.setText("Por favor, completa todos los campos.");
+                LoggerManager.logWarning("Intento de registro fallido: Campos vacios.");
+
+
             } else {
                 MiembroClub miembro;
                 if (tipo.equals("Juvenil")) {
@@ -90,9 +171,14 @@ public class MainApp extends Application {
 
                     club.registrarMiembro(miembro);
                     registroLabel.setText("Miembro registrado e inscrito en las sesiones de entrenamiento de " + deporte.getNombre());
+                    LoggerManager.logInfo("Registro exitoso del miembro: " + nombre + " en el deporte " + deporteSeleccionado);
+
                 } else {
                     registroLabel.setText("No puedes inscribirte en este deporte.");
+                    LoggerManager.logError("Error al registrar al miembro: " + nombre + ". No se puede inscribir en el deporte " + deporteSeleccionado);
+
                 }
+    
             }
         });
 
@@ -114,23 +200,23 @@ public class MainApp extends Application {
         root.setPadding(new javafx.geometry.Insets(10));
 
         ComboBox<String> deportesBox = new ComboBox<>(deportesObservableList);
-        deportesBox.setPromptText("Selecciona un Deporte");
+        deportesBox.setPromptText(bundle.getString("label.selectDeporte"));
 
-        Button crearDeporteButton = new Button("Crear Deporte");
-        Button crearSesionButton = new Button("Crear Sesión");
-        Button editarSesionButton = new Button("Editar Sesión");
-        Button eliminarSesionButton = new Button("Eliminar Sesión");
+        Button crearDeporteButton = new Button(bundle.getString("button.createSport"));
+        Button crearSesionButton = new Button(bundle.getString("button.createSession"));
+        Button editarSesionButton = new Button(bundle.getString("button.editSession"));
+        Button eliminarSesionButton = new Button(bundle.getString("button.deleteSession"));
 
         crearDeporteButton.setOnAction(e -> crearDeporte());
         crearSesionButton.setOnAction(e -> crearSesion(deportesBox.getValue()));
         editarSesionButton.setOnAction(e -> editarSesion(deportesBox.getValue()));
         eliminarSesionButton.setOnAction(e -> eliminarSesion(deportesBox.getValue()));
 
-        Button backButton = new Button("Atrás");
+        Button backButton = new Button(bundle.getString("button.back"));
         backButton.setOnAction(e -> mostrarPantallaInicial(stage));
 
         root.getChildren().addAll(
-            new Label("Administrar Sesiones:"),
+            new Label(bundle.getString("label.manageSessions")),
             deportesBox, crearDeporteButton, crearSesionButton, editarSesionButton, eliminarSesionButton,
             backButton
         );
@@ -189,6 +275,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
 
     private void crearSesion(String deporteNombre) {
         if (deporteNombre == null) {
@@ -289,7 +376,6 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
     private void eliminarSesion(String deporteNombre) {
         if (deporteNombre == null) {
             mostrarAlerta("Error", "Selecciona un deporte antes de eliminar una sesión.");

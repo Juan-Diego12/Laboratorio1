@@ -17,7 +17,7 @@ public class ClubDeportivo {
         miembros.add(miembro);
     }
 
-    public void registrarDeporte(Deporte deporte) {
+    public void registrarDeporte(Deporte deporte){
         deportes.add(deporte);
     }
 
@@ -34,5 +34,9 @@ public class ClubDeportivo {
             return null;
         }
         return miembros.get(miembros.size() - 1);
+    }
+
+    public List<MiembroClub> getMiembros() {
+        return miembros;
     }
 }
